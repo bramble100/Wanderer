@@ -68,23 +68,25 @@ namespace WandererEngine
         {
             if (e.Key == Key.Left)
             {
-                MessageBox.Show("To the left!");
+                area.MoveHero(Direction.Left);
             }
 
             if (e.Key == Key.Right)
             {
-                MessageBox.Show("To the right!");
+                area.MoveHero(Direction.Right);
             }
 
             if (e.Key == Key.Up)
             {
-                MessageBox.Show("Up!");
+                area.MoveHero(Direction.Up);
             }
 
             if (e.Key == Key.Down)
             {
-                MessageBox.Show("Down!");
+                area.MoveHero(Direction.Down);
             }
+            RefreshGameArea();
+
         }
     }
 }
