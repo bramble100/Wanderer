@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WandererEngine
 {
-    class Battle
+    public class Battle
     {
         MovingObject Attacker;
         MovingObject Defendant;
@@ -27,14 +27,19 @@ namespace WandererEngine
 
         public void Perform()
         {
-            while (IsWonByAnyParty)
+            Console.WriteLine("Perform");
+            Console.WriteLine(Attacker.IsAlive);
+            Console.WriteLine(Defendant.IsAlive);
+            while (!IsWonByAnyParty)
             {
+                Console.WriteLine("PerformOneRound");
                 PerformOneRound();
             }
         }
 
         private void PerformOneRound()
         {
+            Console.WriteLine("PerformOneRound");
             Attacker.Strike(Defendant);
             if (!Defendant.IsAlive)
             {

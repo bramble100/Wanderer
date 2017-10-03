@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WandererEngine
 {
@@ -14,8 +12,8 @@ namespace WandererEngine
         public MovingObjects movingObjects;
         public int totalNumberOfMonsters;
         public int Level;
-        public int MIN_NUMBER_OF_MONSTERS = 3;
-        public int MAX_NUMBER_OF_MONSTERS = 6;
+        public int MIN_NUMBER_OF_MONSTERS = 23;
+        public int MAX_NUMBER_OF_MONSTERS = 26;
 
         Dice Dice;
 
@@ -162,6 +160,20 @@ namespace WandererEngine
                 movingObjects.Hero.XPosition--;
             }
 
+            PerformBattleIfAny();
+        }
+
+        private void PerformBattleIfAny()
+        {
+            foreach (Monster monster in movingObjects.Monsters)
+            {
+                if (movingObjects.Hero.XPosition == monster.XPosition && 
+                    movingObjects.Hero.YPosition == monster.YPosition)
+                {
+                    Battle battle = new Battle(movingObjects.Hero, monster);
+                    battle.Perform();
+                }
+            }
         }
 
         private bool TargetTileIsWalkable(int xPosition, int yPosition, Direction direction)

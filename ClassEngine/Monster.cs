@@ -14,7 +14,7 @@ namespace WandererEngine
             InitalizePoints();
         }
 
-        internal override void InitalizeLevel(int areaLevel) => Level = areaLevel + LevelModifierCalculator();
+        public override void InitalizeLevel(int areaLevel) => Level = areaLevel + LevelModifierCalculator();
 
         private int LevelModifierCalculator()
         {
@@ -27,7 +27,7 @@ namespace WandererEngine
             return modifier;
         }
 
-        internal override void InitalizePoints()
+        public override void InitalizePoints()
         {
             // Monster Lvl x
             // HP: 2 * x * d6

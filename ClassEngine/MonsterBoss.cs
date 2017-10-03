@@ -13,7 +13,7 @@ namespace WandererEngine
             InitalizePoints();
         }
 
-        internal override void InitalizePoints()
+        public override void InitalizePoints()
         {
             // Monster Lvl x(if boss)
             // HP: 2 * x * d6(+d6)

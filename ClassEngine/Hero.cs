@@ -12,14 +12,16 @@ namespace WandererEngine
 
         public Hero(int level, Dice dice) : base(dice)
         {
+            InitalizeLevel(level);
+            InitalizePoints();
         }
 
-        internal override void InitalizeLevel(int level)
+        public override void InitalizeLevel(int level)
         {
             Level = level;
         }
 
-        internal override void InitalizePoints()
+        public override void InitalizePoints()
         {
             // HP: 20 + 3 * d6
             MaximalHealthPoints = CurrentHealthPoints = 20 + dice.Roll() + dice.Roll() + dice.Roll();
@@ -29,12 +31,12 @@ namespace WandererEngine
             StrikePoints = 5 + dice.Roll();
         }
 
-        internal void EnterNextArea()
+        public void EnterNextArea()
         {
             RestorePoints();
         }
 
-        private void RestorePoints()
+        public void RestorePoints()
         {
             int random10 = dice.random.Next(10);
             // when entering a new area the hero has

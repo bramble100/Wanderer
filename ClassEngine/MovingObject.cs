@@ -29,9 +29,9 @@ namespace WandererEngine
             InitalizePoints();
         }
 
-        internal abstract void InitalizeLevel(int level);
+        public abstract void InitalizeLevel(int level);
 
-        internal abstract void InitalizePoints();
+        public abstract void InitalizePoints();
 
         public bool IsAlive
         {
@@ -41,7 +41,7 @@ namespace WandererEngine
             }
         }
 
-        internal void LevelUp()
+        public void LevelUp()
         {
             // after successfully won battle the character is leveling up
             Level++;
@@ -53,7 +53,7 @@ namespace WandererEngine
             StrikePoints += dice.Roll();
         }
 
-        internal void Strike(MovingObject defendant)
+        public void Strike(MovingObject defendant)
         {
             int StrikeValue = StrikePoints + 2 * dice.Roll();
             bool StrikeIsSuccesful = StrikeValue > defendant.DefendPoints;
