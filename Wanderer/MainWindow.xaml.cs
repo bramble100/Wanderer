@@ -26,6 +26,22 @@ namespace WandererEngine
         FoxDraw FoxDraw;
         Area area;
 
+        public Dictionary<Direction, string> HeroSprites = new Dictionary<Direction, string>
+        {
+            { Direction.Up, "./hero-up.png" },
+            { Direction.Down, "./hero-down.png" },
+            { Direction.Left, "./hero-left.png" },
+            { Direction.Right, "./hero-right.png" }
+        };
+
+        public Dictionary<Key, Direction> KeyBoardReactions = new Dictionary<Key, Direction>
+        {
+            {Key.Up, Direction.Up },
+            {Key.Down, Direction.Down },
+            {Key.Left, Direction.Left},
+            {Key.Right, Direction.Right }
+        };
+
         public MainWindow()
         {
             InitializeComponent();
@@ -45,9 +61,8 @@ namespace WandererEngine
             area = Game.Area;
             int XPos = area.movingObjects.hero.XPosition* area.TILE_SIZE;
             int YPos = area.movingObjects.hero.YPosition * area.TILE_SIZE;
-            string hero = "./hero-down.png";
 
-            FoxDraw.AddImage(hero, XPos, YPos);
+            FoxDraw.AddImage(HeroSprites[area.movingObjects.hero.LookingDirection], XPos, YPos);
         }
 
         private void DisplayDungeon()
@@ -66,27 +81,11 @@ namespace WandererEngine
 
         private void WindowKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Left)
+            if (KeyBoardReactions.ContainsKey(e.Key))
             {
-                area.MoveHero(Direction.Left);
+                area.MoveHero(KeyBoardReactions[e.Key]);
+                RefreshGameArea();
             }
-
-            if (e.Key == Key.Right)
-            {
-                area.MoveHero(Direction.Right);
-            }
-
-            if (e.Key == Key.Up)
-            {
-                area.MoveHero(Direction.Up);
-            }
-
-            if (e.Key == Key.Down)
-            {
-                area.MoveHero(Direction.Down);
-            }
-            RefreshGameArea();
-
         }
     }
 }

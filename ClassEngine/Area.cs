@@ -49,7 +49,7 @@ namespace WandererEngine
         /// <returns></returns>
         internal List<Tile> LayoutGenerator()
         {
-            List<bool> isWalkableList = new List<bool>()
+            List<bool> isWalkableList = new List<bool>
             {
                 true, true, true, false, true, false, true, true, true, true,
                 true, true, true, false, true, false, true, false, false, true,
@@ -78,6 +78,8 @@ namespace WandererEngine
 
         private void PerformMove(int xPosition, int yPosition, Direction direction)
         {
+            movingObjects.hero.LookingDirection = direction;
+
             if (direction == Direction.Up)
             {
                 movingObjects.hero.YPosition--;
@@ -86,7 +88,7 @@ namespace WandererEngine
             {
                 movingObjects.hero.YPosition++;
             }
-            if (direction == Direction.Right)
+            else if (direction == Direction.Right)
             {
                 movingObjects.hero.XPosition++;
             }

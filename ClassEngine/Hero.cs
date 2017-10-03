@@ -8,6 +8,8 @@ namespace WandererEngine
 {
     public class Hero : MovingObject
     {
+        public Direction LookingDirection = Direction.Right;
+
         public Hero(int level, Dice dice) : base(dice)
         {
         }
