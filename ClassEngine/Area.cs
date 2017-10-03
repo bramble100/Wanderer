@@ -14,7 +14,7 @@ namespace WandererEngine
         public MovingObjects movingObjects;
         public int totalNumberOfMonsters;
         public int Level;
-        public int MIN_NUMBER_OF_MONSTERS = 5;
+        public int MIN_NUMBER_OF_MONSTERS = 3;
         public int MAX_NUMBER_OF_MONSTERS = 6;
 
         Dice Dice;
@@ -27,7 +27,6 @@ namespace WandererEngine
             Dice = dice;
             Level = level;
             totalNumberOfMonsters = Dice.random.Next(MIN_NUMBER_OF_MONSTERS , MAX_NUMBER_OF_MONSTERS + 1);
-            Console.WriteLine(totalNumberOfMonsters);
             movingObjects = new MovingObjects(totalNumberOfMonsters, Level, Dice);
             AddRange(LayoutGenerator());
             //RandomLayoutGenerator();
@@ -52,7 +51,6 @@ namespace WandererEngine
                 monsterPlaceIndexOnTotalArea = GetNextFreeRandomPlace();
                 movingObjects.Monsters[i].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
                 movingObjects.Monsters[i].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
-
             }
         }
 
@@ -70,7 +68,7 @@ namespace WandererEngine
         {
             for (int i = 0; i < Count; i++)
             {
-                if (this[i].IsWalkable)
+                if (TileIsFreeAndWalkable(i))
                 {
                     monsterPlaceIndexOnWalkableTiles--;
                     if (monsterPlaceIndexOnWalkableTiles == 0)
@@ -80,6 +78,20 @@ namespace WandererEngine
                 }
             }
             return -1;
+        }
+
+        private bool TileIsFreeAndWalkable(int i)
+        {
+            if (!this[i].IsWalkable)
+            {
+                return false;
+            }
+            if (movingObjects.Hero.XPosition == XPosition(i) && movingObjects.Hero.YPosition == YPosition(i))
+            {
+                return false;
+            }
+            return !movingObjects.Monsters.Exists(monster 
+                => monster.XPosition == XPosition(i) && monster.YPosition == YPosition(i));
         }
 
         /// <summary>
