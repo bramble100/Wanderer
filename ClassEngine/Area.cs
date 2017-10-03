@@ -78,11 +78,11 @@ namespace WandererEngine
 
         private void PerformMove(int xPosition, int yPosition, Direction direction)
         {
-            if(direction == Direction.Up)
+            if (direction == Direction.Up)
             {
                 movingObjects.hero.YPosition--;
             }
-            else if(direction == Direction.Down)
+            else if (direction == Direction.Down)
             {
                 movingObjects.hero.YPosition++;
             }
@@ -100,9 +100,9 @@ namespace WandererEngine
         private bool TargetTileIsWalkable(int xPosition, int yPosition, Direction direction)
         {
             if ((xPosition == 0 && direction == Direction.Left) ||
-                (xPosition >= NUMBER_OF_TILES_X && direction == Direction.Right) ||
+                (xPosition >= NUMBER_OF_TILES_X - 1 && direction == Direction.Right) ||
                 (yPosition == 0 && direction == Direction.Up) ||
-                (yPosition >= NUMBER_OF_TILES_Y && direction == Direction.Down))
+                (yPosition >= NUMBER_OF_TILES_Y - 1 && direction == Direction.Down))
             {
                 return false;
             }
