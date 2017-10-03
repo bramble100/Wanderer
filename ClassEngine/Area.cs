@@ -29,6 +29,20 @@ namespace WandererEngine
             //RandomLayoutGenerator();
         }
 
+        /// <summary>
+        /// Returns the X position based on the index in a one-dimensional list.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public int XPosition(int index) => index % NUMBER_OF_TILES_X;
+
+        /// <summary>
+        /// Returns the Y position based on the index in a one-dimensional list.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public int YPosition(int index) => index / NUMBER_OF_TILES_X;
+
         internal List<Tile> LayoutGenerator()
         {
             List<bool> isWalkableList = new List<bool>()

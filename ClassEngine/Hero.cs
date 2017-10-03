@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WandererEngine
 {
-    class Hero : MovingObject
+    public class Hero : MovingObject
     {
         public Hero(int level, Dice dice) : base(dice)
         {

@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace WandererEngine
 {
-    abstract class MovingObject
+    public abstract class MovingObject
     {
-        protected int XPosition;
-        protected int YPosition;
-        protected int MaximalHealthPoints;
-        protected int CurrentHealthPoints;
-        protected int DefendPoints;
-        protected int StrikePoints;
-        protected int Level;
+        public int XPosition;
+        public int YPosition;
+        public int MaximalHealthPoints;
+        public int CurrentHealthPoints;
+        public int DefendPoints;
+        public int StrikePoints;
+        public int Level;
 
-        protected Dice dice;
+        public Dice dice;
 
         public MovingObject(Dice dice)
         {

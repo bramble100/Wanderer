@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace WandererEngine
 {
-    class Monster : MovingObject
+    public class Monster : MovingObject
     {
-        internal Monster(int areaLevel, Dice dice) : base(dice)
+        public Monster(int areaLevel, Dice dice) : base(dice)
         {
             InitalizeLevel(areaLevel);
             InitalizePoints();

@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="Area.cs" />
     <Compile Include="Battle.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Hero.cs" />

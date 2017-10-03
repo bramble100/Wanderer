@@ -8,10 +8,10 @@ namespace WandererEngine
 {
     public class MovingObjects
     {
-        Hero hero;
-        List<Monster> monsters = new List<Monster>();
-        private int totalNumberOfMonsters;
-        private int level;
+        public Hero hero;
+        public List<Monster> monsters = new List<Monster>();
+        public int totalNumberOfMonsters;
+        public int level;
 
         private Dice dice;
 

@@ -11,11 +11,14 @@ namespace WandererEngine
         public int Level;
         public Area Area;
         public Dice Dice;
+        public MovingObjects MovingObjects;
 
         public Game()
         {
             Level = 1;
             Area = new Area(Level, new Dice(new Random()));
+            Area.movingObjects.hero.XPosition = 0;
+            Area.movingObjects.hero.YPosition = 0;
         }
     }
 }

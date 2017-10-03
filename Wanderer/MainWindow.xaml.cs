@@ -24,6 +24,7 @@ namespace WandererEngine
     {
         Game Game;
         FoxDraw FoxDraw;
+        Area area;
 
         public MainWindow()
         {
@@ -35,17 +36,31 @@ namespace WandererEngine
 
         private void RefreshGameArea()
         {
-            Area area = Game.Area;
-            int XPos;
-            int YPos;
+            DisplayDungeon();
+            DisplayHero();
+        }
+
+        private void DisplayHero()
+        {
+            area = Game.Area;
+            int XPos = area.movingObjects.hero.XPosition* area.TILE_SIZE;
+            int YPos = area.movingObjects.hero.YPosition * area.TILE_SIZE;
+            string hero = "./hero-down.png";
+
+            FoxDraw.AddImage(hero, XPos, YPos);
+        }
+
+        private void DisplayDungeon()
+        {
+            area = Game.Area;
             string floor = "./floor.png";
             string wall = "./wall.png";
+
             for (int i = 0; i < area.Count; i++)
             {
-                XPos = area.TILE_SIZE * (i % area.NUMBER_OF_TILES_X);
-                YPos = area.TILE_SIZE * (i / area.NUMBER_OF_TILES_X);
-                FoxDraw.AddImage(area[i].IsWalkable? floor:wall,  XPos, YPos);
-                //MessageBox.Show($"{i} {XPos} {YPos}");
+                FoxDraw.AddImage(area[i].IsWalkable ? floor : wall, 
+                    area.TILE_SIZE * area.XPosition(i),
+                    area.TILE_SIZE * area.YPosition(i));
             }
         }
 
