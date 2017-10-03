@@ -19,6 +19,8 @@ namespace WandererEngine
 
         Dice Dice;
 
+        public int NumberOfWalkableTiles => this.Count(tile => tile.IsWalkable);
+
         public Area(int level, Dice dice)
         {
             Dice = dice;
@@ -26,7 +28,49 @@ namespace WandererEngine
             totalNumberOfMonsters = dice.random.Next(MIN_NUMBER_OF_MONSTERS - 2, MAX_NUMBER_OF_MONSTERS - 1);
             movingObjects = new MovingObjects(totalNumberOfMonsters, level, dice);
             AddRange(LayoutGenerator());
+            PlaceMonsters(NumberOfWalkableTiles);
             //RandomLayoutGenerator();
+        }
+
+        private void PlaceMonsters(int numberOfWalkableTiles)
+        {
+            int field = numberOfWalkableTiles - 1 / totalNumberOfMonsters;
+
+            //Queue<Monster> monsterQueue = new Queue<Monster>();
+
+            //monsterQueue.Enqueue(new MonsterBoss(Level, Dice));
+
+            // place boss
+            int monsterPlaceIndexOnWalkableTiles = Dice.random.Next(numberOfWalkableTiles);
+
+            // int monsterPlaceIndexOnWalkableTiles = field * (Dice.random.Next(totalNumberOfMonsters - 1) + 1);
+            int monsterPlaceIndexOnTotalArea = GetIndexOnTotalArea(monsterPlaceIndexOnWalkableTiles);
+            Console.WriteLine(monsterPlaceIndexOnWalkableTiles);
+            movingObjects.monsters[0].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
+            movingObjects.monsters[0].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
+
+            // place keyholder
+            // place the others
+        }
+        /// <summary>
+        /// Returns index on total area (walls included) by index on walkable tiles (walls excluded).
+        /// </summary>
+        /// <param name="monsterPlaceIndexOnWalkableTiles"></param>
+        /// <returns></returns>
+        private int GetIndexOnTotalArea(int monsterPlaceIndexOnWalkableTiles)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (this[i].IsWalkable)
+                {
+                    monsterPlaceIndexOnWalkableTiles--;
+                    if (monsterPlaceIndexOnWalkableTiles == 0)
+                    {
+                        return i;
+                    }
+                }
+            }
+            return -1;
         }
 
         /// <summary>
@@ -68,7 +112,7 @@ namespace WandererEngine
             return layout;
         }
 
-        public void MoveHero(Direction direction)
+        public void TryToMoveHero(Direction direction)
         {
             if (TargetTileIsWalkable(movingObjects.hero.XPosition, movingObjects.hero.YPosition, direction))
             {

@@ -23,11 +23,11 @@ namespace WandererEngine
 
             hero = new Hero(areaLevel, dice);
             monsters.Add(new MonsterBoss(level, dice));
-            monsters.Add(new KeyHolderMonster(level, dice));
-            for (int i = 2; i < totalNumberOfMonsters; i++)
-            {
-                monsters.Add(new Monster(level, dice));
-            }
+            //monsters.Add(new KeyHolderMonster(level, dice));
+            //for (int i = 2; i < totalNumberOfMonsters; i++)
+            //{
+            //    monsters.Add(new Monster(level, dice));
+            //}
         }
     }
 }

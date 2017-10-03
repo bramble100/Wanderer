@@ -53,16 +53,8 @@ namespace WandererEngine
         private void RefreshGameArea()
         {
             DisplayDungeon();
+            DisplayMonsters();
             DisplayHero();
-        }
-
-        private void DisplayHero()
-        {
-            area = Game.Area;
-            int XPos = area.movingObjects.hero.XPosition* area.TILE_SIZE;
-            int YPos = area.movingObjects.hero.YPosition * area.TILE_SIZE;
-
-            FoxDraw.AddImage(HeroSprites[area.movingObjects.hero.LookingDirection], XPos, YPos);
         }
 
         private void DisplayDungeon()
@@ -79,11 +71,31 @@ namespace WandererEngine
             }
         }
 
+        private void DisplayMonsters()
+        {
+            foreach (Monster monster in area.movingObjects.monsters)
+            {
+                int XPos = monster.XPosition * area.TILE_SIZE;
+                int YPos = monster.YPosition * area.TILE_SIZE;
+
+                FoxDraw.AddImage("./boss.png", XPos, YPos);
+            }
+        }
+
+        private void DisplayHero()
+        {
+            area = Game.Area;
+            int XPos = area.movingObjects.hero.XPosition * area.TILE_SIZE;
+            int YPos = area.movingObjects.hero.YPosition * area.TILE_SIZE;
+
+            FoxDraw.AddImage(HeroSprites[area.movingObjects.hero.LookingDirection], XPos, YPos);
+        }
+
         private void WindowKeyDown(object sender, KeyEventArgs e)
         {
             if (KeyBoardReactions.ContainsKey(e.Key))
             {
-                area.MoveHero(KeyBoardReactions[e.Key]);
+                area.TryToMoveHero(KeyBoardReactions[e.Key]);
                 RefreshGameArea();
             }
         }
