@@ -13,18 +13,40 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GreenFox;
+using WandererEngine;
 
-namespace Wanderer
+namespace WandererEngine
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        Game Game;
+        FoxDraw FoxDraw;
+
         public MainWindow()
         {
             InitializeComponent();
-            var foxDraw = new FoxDraw(canvas);
+            FoxDraw = new FoxDraw(canvas);
+            Game = new Game();
+            RefreshGameArea();
+        }
+
+        private void RefreshGameArea()
+        {
+            Area area = Game.Area;
+            int XPos;
+            int YPos;
+            string floor = "./floor.png";
+            string wall = "./wall.png";
+            for (int i = 0; i < area.Count; i++)
+            {
+                XPos = area.TILE_SIZE * (i % area.NUMBER_OF_TILES_X);
+                YPos = area.TILE_SIZE * (i / area.NUMBER_OF_TILES_X);
+                FoxDraw.AddImage(area[i].IsWalkable? floor:wall,  XPos, YPos);
+                //MessageBox.Show($"{i} {XPos} {YPos}");
+            }
         }
 
         private void WindowKeyDown(object sender, KeyEventArgs e)

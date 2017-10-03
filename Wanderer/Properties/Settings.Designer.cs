@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wanderer.Properties
+namespace WandererEngine.Properties
 {
 
 

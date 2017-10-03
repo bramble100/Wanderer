@@ -94,5 +94,21 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassEngine\WandererEngine.csproj">
+      <Project>{36c755dd-94b0-4863-8436-edecd595eecd}</Project>
+      <Name>WandererEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="boss.png" />
+    <Resource Include="floor.png" />
+    <Resource Include="hero-down.png" />
+    <Resource Include="hero-left.png" />
+    <Resource Include="hero-right.png" />
+    <Resource Include="hero-up.png" />
+    <Resource Include="skeleton.png" />
+    <Resource Include="wall.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

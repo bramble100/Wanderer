@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wanderer", "Wanderer\Wanderer.csproj", "{C08EC4C3-170C-404E-BF00-FB03E796469F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WandererGUI", "Wanderer\WandererGUI.csproj", "{C08EC4C3-170C-404E-BF00-FB03E796469F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WandererEngine", "ClassEngine\WandererEngine.csproj", "{36C755DD-94B0-4863-8436-EDECD595EECD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C08EC4C3-170C-404E-BF00-FB03E796469F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C08EC4C3-170C-404E-BF00-FB03E796469F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C08EC4C3-170C-404E-BF00-FB03E796469F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36C755DD-94B0-4863-8436-EDECD595EECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C755DD-94B0-4863-8436-EDECD595EECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C755DD-94B0-4863-8436-EDECD595EECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36C755DD-94B0-4863-8436-EDECD595EECD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
