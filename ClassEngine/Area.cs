@@ -14,44 +14,53 @@ namespace WandererEngine
         public MovingObjects movingObjects;
         public int totalNumberOfMonsters;
         public int Level;
-        public int MIN_NUMBER_OF_MONSTERS = 3;
+        public int MIN_NUMBER_OF_MONSTERS = 5;
         public int MAX_NUMBER_OF_MONSTERS = 6;
 
         Dice Dice;
 
-        public int NumberOfWalkableTiles => this.Count(tile => tile.IsWalkable);
+        public int NumberOfFreeTiles 
+            => this.Count(tile => tile.IsWalkable) - movingObjects.Monsters.Count - 1;
 
         public Area(int level, Dice dice)
         {
             Dice = dice;
             Level = level;
-            totalNumberOfMonsters = dice.random.Next(MIN_NUMBER_OF_MONSTERS - 2, MAX_NUMBER_OF_MONSTERS - 1);
-            movingObjects = new MovingObjects(totalNumberOfMonsters, level, dice);
+            totalNumberOfMonsters = Dice.random.Next(MIN_NUMBER_OF_MONSTERS , MAX_NUMBER_OF_MONSTERS + 1);
+            Console.WriteLine(totalNumberOfMonsters);
+            movingObjects = new MovingObjects(totalNumberOfMonsters, Level, Dice);
             AddRange(LayoutGenerator());
-            PlaceMonsters(NumberOfWalkableTiles);
             //RandomLayoutGenerator();
+            PlaceMonsters();
         }
 
-        private void PlaceMonsters(int numberOfWalkableTiles)
+        private void PlaceMonsters()
         {
-            int field = numberOfWalkableTiles - 1 / totalNumberOfMonsters;
-
-            //Queue<Monster> monsterQueue = new Queue<Monster>();
-
-            //monsterQueue.Enqueue(new MonsterBoss(Level, Dice));
-
             // place boss
-            int monsterPlaceIndexOnWalkableTiles = Dice.random.Next(numberOfWalkableTiles);
-
-            // int monsterPlaceIndexOnWalkableTiles = field * (Dice.random.Next(totalNumberOfMonsters - 1) + 1);
-            int monsterPlaceIndexOnTotalArea = GetIndexOnTotalArea(monsterPlaceIndexOnWalkableTiles);
-            Console.WriteLine(monsterPlaceIndexOnWalkableTiles);
-            movingObjects.monsters[0].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
-            movingObjects.monsters[0].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
+            int monsterPlaceIndexOnTotalArea = GetNextFreeRandomPlace();
+            movingObjects.Monsters[0].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
+            movingObjects.Monsters[0].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
 
             // place keyholder
+            monsterPlaceIndexOnTotalArea = GetNextFreeRandomPlace();
+            movingObjects.Monsters[1].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
+            movingObjects.Monsters[1].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
+
             // place the others
+            for (int i = 2; i < movingObjects.Monsters.Count; i++)
+            {
+                monsterPlaceIndexOnTotalArea = GetNextFreeRandomPlace();
+                movingObjects.Monsters[i].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
+                movingObjects.Monsters[i].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
+
+            }
         }
+
+        private int GetNextFreeRandomPlace()
+        {
+            return GetIndexOnTotalArea(Dice.random.Next(NumberOfFreeTiles));
+        }
+
         /// <summary>
         /// Returns index on total area (walls included) by index on walkable tiles (walls excluded).
         /// </summary>
@@ -114,31 +123,31 @@ namespace WandererEngine
 
         public void TryToMoveHero(Direction direction)
         {
-            if (TargetTileIsWalkable(movingObjects.hero.XPosition, movingObjects.hero.YPosition, direction))
+            if (TargetTileIsWalkable(movingObjects.Hero.XPosition, movingObjects.Hero.YPosition, direction))
             {
-                PerformMove(movingObjects.hero.XPosition, movingObjects.hero.YPosition, direction);
+                PerformMove(movingObjects.Hero.XPosition, movingObjects.Hero.YPosition, direction);
             }
         }
 
         private void PerformMove(int xPosition, int yPosition, Direction direction)
         {
-            movingObjects.hero.LookingDirection = direction;
+            movingObjects.Hero.LookingDirection = direction;
 
             if (direction == Direction.Up)
             {
-                movingObjects.hero.YPosition--;
+                movingObjects.Hero.YPosition--;
             }
             else if (direction == Direction.Down)
             {
-                movingObjects.hero.YPosition++;
+                movingObjects.Hero.YPosition++;
             }
             else if (direction == Direction.Right)
             {
-                movingObjects.hero.XPosition++;
+                movingObjects.Hero.XPosition++;
             }
             else if (direction == Direction.Left)
             {
-                movingObjects.hero.XPosition--;
+                movingObjects.Hero.XPosition--;
             }
 
         }

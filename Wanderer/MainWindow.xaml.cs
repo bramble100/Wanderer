@@ -26,7 +26,7 @@ namespace WandererEngine
         FoxDraw FoxDraw;
         Area area;
 
-        public Dictionary<Direction, string> HeroSprites = new Dictionary<Direction, string>
+        public Dictionary<Direction, string> HeroSprite = new Dictionary<Direction, string>
         {
             { Direction.Up, "./hero-up.png" },
             { Direction.Down, "./hero-down.png" },
@@ -34,7 +34,7 @@ namespace WandererEngine
             { Direction.Right, "./hero-right.png" }
         };
 
-        public Dictionary<Key, Direction> KeyBoardReactions = new Dictionary<Key, Direction>
+        public Dictionary<Key, Direction> KeyBoardReaction = new Dictionary<Key, Direction>
         {
             {Key.Up, Direction.Up },
             {Key.Down, Direction.Down },
@@ -42,6 +42,13 @@ namespace WandererEngine
             {Key.Right, Direction.Right }
         };
 
+        public Dictionary<Type, String> MonsterSprite = new Dictionary<Type, String>
+        {
+            {typeof(MonsterBoss), "./boss.png"},
+            {typeof(KeyHolderMonster), "./skeleton.png"},
+            {typeof(Monster), "./skeleton.png"}
+        };
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -73,29 +80,25 @@ namespace WandererEngine
 
         private void DisplayMonsters()
         {
-            foreach (Monster monster in area.movingObjects.monsters)
+            //MessageBox.Show($"Monsters: {area.movingObjects.Monsters.Count}");
+            foreach (Monster monster in area.movingObjects.Monsters)
             {
                 int XPos = monster.XPosition * area.TILE_SIZE;
                 int YPos = monster.YPosition * area.TILE_SIZE;
 
-                FoxDraw.AddImage("./boss.png", XPos, YPos);
+                FoxDraw.AddImage(MonsterSprite[monster.GetType()], XPos, YPos);
             }
         }
 
-        private void DisplayHero()
-        {
-            area = Game.Area;
-            int XPos = area.movingObjects.hero.XPosition * area.TILE_SIZE;
-            int YPos = area.movingObjects.hero.YPosition * area.TILE_SIZE;
-
-            FoxDraw.AddImage(HeroSprites[area.movingObjects.hero.LookingDirection], XPos, YPos);
-        }
+        private void DisplayHero() => FoxDraw.AddImage(HeroSprite[Game.Area.movingObjects.Hero.LookingDirection],
+                Game.Area.movingObjects.Hero.XPosition * Game.Area.TILE_SIZE,
+                Game.Area.movingObjects.Hero.YPosition * Game.Area.TILE_SIZE);
 
         private void WindowKeyDown(object sender, KeyEventArgs e)
         {
-            if (KeyBoardReactions.ContainsKey(e.Key))
+            if (KeyBoardReaction.ContainsKey(e.Key))
             {
-                area.TryToMoveHero(KeyBoardReactions[e.Key]);
+                area.TryToMoveHero(KeyBoardReaction[e.Key]);
                 RefreshGameArea();
             }
         }

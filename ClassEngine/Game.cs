@@ -17,8 +17,8 @@ namespace WandererEngine
         {
             Level = 1;
             Area = new Area(Level, new Dice(new Random()));
-            Area.movingObjects.hero.XPosition = 0;
-            Area.movingObjects.hero.YPosition = 0;
+            Area.movingObjects.Hero.XPosition = 0;
+            Area.movingObjects.Hero.YPosition = 0;
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WandererEngine
 {
-    class MonsterBoss : Monster
+    public class MonsterBoss : Monster
     {
         internal MonsterBoss(int areaLevel, Dice dice) : base(areaLevel, dice)
         {
