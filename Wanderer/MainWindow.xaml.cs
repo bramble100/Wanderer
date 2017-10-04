@@ -24,7 +24,6 @@ namespace WandererEngine
     {
         Game Game;
         FoxDraw FoxDraw;
-        Area area;
 
         public Dictionary<Direction, string> HeroSprite = new Dictionary<Direction, string>
         {
@@ -62,30 +61,32 @@ namespace WandererEngine
             DisplayDungeon();
             DisplayMonsters();
             DisplayHero();
+            DisplayHeroData();
+        }
+
+        private void DisplayHeroData()
+        {
+            labelHero.Content = Game.Area.movingObjects.Hero.ToString();
+            labelMonster.Content = Game.Area.movingObjects.Hero.ToString();
         }
 
         private void DisplayDungeon()
         {
-            area = Game.Area;
-            string floor = "./floor.png";
-            string wall = "./wall.png";
-
-            for (int i = 0; i < area.Count; i++)
+            for (int i = 0; i < Game.Area.Count; i++)
             {
-                FoxDraw.AddImage(area[i].IsWalkable ? floor : wall, 
-                    area.TILE_SIZE * area.XPosition(i),
-                    area.TILE_SIZE * area.YPosition(i));
+                FoxDraw.AddImage(Game.Area[i].IsWalkable ? "./floor.png" : "./wall.png",
+                    Game.Area.TILE_SIZE * Game.Area.XPosition(i),
+                    Game.Area.TILE_SIZE * Game.Area.YPosition(i));
             }
         }
 
         private void DisplayMonsters()
         {
-            foreach (Monster monster in area.movingObjects.Monsters.Where(monster => monster.IsAlive))
+            foreach (Monster monster in Game.Area.movingObjects.Monsters.Where(monster => monster.IsAlive))
             {
-                int XPos = monster.XPosition * area.TILE_SIZE;
-                int YPos = monster.YPosition * area.TILE_SIZE;
-
-                FoxDraw.AddImage(MonsterSprite[monster.GetType()], XPos, YPos);
+                FoxDraw.AddImage(MonsterSprite[monster.GetType()],
+                    monster.XPosition * Game.Area.TILE_SIZE,
+                    monster.YPosition * Game.Area.TILE_SIZE);
             }
         }
 
@@ -97,7 +98,7 @@ namespace WandererEngine
         {
             if (KeyBoardReaction.ContainsKey(e.Key))
             {
-                area.TryToMoveHero(KeyBoardReaction[e.Key]);
+                Game.Area.TryToMoveHero(KeyBoardReaction[e.Key]);
                 RefreshGameArea();
             }
         }

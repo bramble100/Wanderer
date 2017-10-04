@@ -66,7 +66,7 @@ namespace WandererEngine
 
         public override string ToString()
         {
-            return $"{GetType().ToString()}" +
+            return $"{GetType().Name}" +
                 $" (Level: {Level})" +
                 $" HP: {CurrentHealthPoints}/{MaximalHealthPoints}" +
                 $" | DP: {DefendPoints}" +

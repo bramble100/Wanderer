@@ -14,6 +14,7 @@ namespace WandererEngine
         public int Level;
         public int MIN_NUMBER_OF_MONSTERS = 23;
         public int MAX_NUMBER_OF_MONSTERS = 26;
+        public Monster ActualOpponent;
 
         Dice Dice;
 
@@ -185,14 +186,10 @@ namespace WandererEngine
             {
                 return false;
             }
-            if ((direction == Direction.Up && this[GetindexFromCoordinates(xPosition, yPosition - 1)].IsWalkable) ||
+            return ((direction == Direction.Up && this[GetindexFromCoordinates(xPosition, yPosition - 1)].IsWalkable) ||
                 (direction == Direction.Down && this[GetindexFromCoordinates(xPosition, yPosition + 1)].IsWalkable) ||
                 (direction == Direction.Left && this[GetindexFromCoordinates(xPosition - 1, yPosition)].IsWalkable) ||
-                (direction == Direction.Right && this[GetindexFromCoordinates(xPosition + 1, yPosition)].IsWalkable))
-            {
-                return true;
-            }
-            return false;
+                (direction == Direction.Right && this[GetindexFromCoordinates(xPosition + 1, yPosition)].IsWalkable));
         }
 
         private int GetindexFromCoordinates(int xPosition, int yPosition) => yPosition * NUMBER_OF_TILES_X + xPosition;
