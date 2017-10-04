@@ -35,6 +35,10 @@ namespace WandererEngine
                 Console.WriteLine("PerformOneRound");
                 PerformOneRound();
             }
+            Console.WriteLine("EndOfPerform");
+            Console.WriteLine(Attacker.IsAlive);
+            Console.WriteLine(Defendant.IsAlive);
+
         }
 
         private void PerformOneRound()

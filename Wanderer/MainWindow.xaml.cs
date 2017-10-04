@@ -80,7 +80,6 @@ namespace WandererEngine
 
         private void DisplayMonsters()
         {
-            //MessageBox.Show($"Monsters: {area.movingObjects.Monsters.Count}");
             foreach (Monster monster in area.movingObjects.Monsters.Where(monster => monster.IsAlive))
             {
                 int XPos = monster.XPosition * area.TILE_SIZE;
