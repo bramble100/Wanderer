@@ -9,24 +9,29 @@ namespace WandererEngine
         public int NUMBER_OF_TILES_X = 10;
         public int NUMBER_OF_TILES_Y = 11;
         public int TILE_SIZE = 50;
-        public MovingObjects movingObjects;
+        public MovingObjects MovingObjects;
         public int totalNumberOfMonsters;
         public int Level;
         public int MIN_NUMBER_OF_MONSTERS = 23;
         public int MAX_NUMBER_OF_MONSTERS = 26;
         public Monster ActualOpponent;
-
         Dice Dice;
 
+        private bool IsBossMonsterAlive { get => MovingObjects.Monsters[0].IsAlive; }
+        private bool IsKeyHolderMonsterAlive { get => MovingObjects.Monsters[1].IsAlive; }
+
         public int NumberOfFreeTiles 
-            => this.Count(tile => tile.IsWalkable) - movingObjects.Monsters.Count - 1;
+            => this.Count(tile => tile.IsWalkable) - MovingObjects.Monsters.Count - 1;
 
         public Area(int level, Dice dice)
         {
             Dice = dice;
             Level = level;
             totalNumberOfMonsters = Dice.random.Next(MIN_NUMBER_OF_MONSTERS , MAX_NUMBER_OF_MONSTERS + 1);
-            movingObjects = new MovingObjects(totalNumberOfMonsters, Level, Dice);
+            MovingObjects = new MovingObjects(totalNumberOfMonsters, Level, Dice);
+            MovingObjects.Hero.XPosition = 0;
+            MovingObjects.Hero.YPosition = 0;
+
             AddRange(LayoutGenerator());
             //RandomLayoutGenerator();
             PlaceMonsters();
@@ -36,20 +41,20 @@ namespace WandererEngine
         {
             // place boss
             int monsterPlaceIndexOnTotalArea = GetNextFreeRandomPlace();
-            movingObjects.Monsters[0].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
-            movingObjects.Monsters[0].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
+            MovingObjects.Monsters[0].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
+            MovingObjects.Monsters[0].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
 
             // place keyholder
             monsterPlaceIndexOnTotalArea = GetNextFreeRandomPlace();
-            movingObjects.Monsters[1].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
-            movingObjects.Monsters[1].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
+            MovingObjects.Monsters[1].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
+            MovingObjects.Monsters[1].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
 
             // place the others
-            for (int i = 2; i < movingObjects.Monsters.Count; i++)
+            for (int i = 2; i < MovingObjects.Monsters.Count; i++)
             {
                 monsterPlaceIndexOnTotalArea = GetNextFreeRandomPlace();
-                movingObjects.Monsters[i].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
-                movingObjects.Monsters[i].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
+                MovingObjects.Monsters[i].XPosition = XPosition(monsterPlaceIndexOnTotalArea);
+                MovingObjects.Monsters[i].YPosition = YPosition(monsterPlaceIndexOnTotalArea);
             }
         }
 
@@ -85,11 +90,11 @@ namespace WandererEngine
             {
                 return false;
             }
-            if (movingObjects.Hero.XPosition == XPosition(i) && movingObjects.Hero.YPosition == YPosition(i))
+            if (MovingObjects.Hero.XPosition == XPosition(i) && MovingObjects.Hero.YPosition == YPosition(i))
             {
                 return false;
             }
-            return !movingObjects.Monsters.Exists(monster 
+            return !MovingObjects.Monsters.Exists(monster 
                 => monster.XPosition == XPosition(i) && monster.YPosition == YPosition(i));
         }
 
@@ -134,31 +139,31 @@ namespace WandererEngine
 
         public void TryToMoveHero(Direction direction)
         {
-            if (TargetTileIsWalkable(movingObjects.Hero.XPosition, movingObjects.Hero.YPosition, direction))
+            if (TargetTileIsWalkable(MovingObjects.Hero.XPosition, MovingObjects.Hero.YPosition, direction))
             {
-                PerformMove(movingObjects.Hero.XPosition, movingObjects.Hero.YPosition, direction);
+                PerformMove(MovingObjects.Hero.XPosition, MovingObjects.Hero.YPosition, direction);
             }
         }
 
         private void PerformMove(int xPosition, int yPosition, Direction direction)
         {
-            movingObjects.Hero.LookingDirection = direction;
+            MovingObjects.Hero.LookingDirection = direction;
 
             if (direction == Direction.Up)
             {
-                movingObjects.Hero.YPosition--;
+                MovingObjects.Hero.YPosition--;
             }
             else if (direction == Direction.Down)
             {
-                movingObjects.Hero.YPosition++;
+                MovingObjects.Hero.YPosition++;
             }
             else if (direction == Direction.Right)
             {
-                movingObjects.Hero.XPosition++;
+                MovingObjects.Hero.XPosition++;
             }
             else if (direction == Direction.Left)
             {
-                movingObjects.Hero.XPosition--;
+                MovingObjects.Hero.XPosition--;
             }
 
             PerformBattleIfAny();
@@ -166,12 +171,13 @@ namespace WandererEngine
 
         private void PerformBattleIfAny()
         {
-            foreach (Monster monster in movingObjects.Monsters)
+            foreach (Monster monster in MovingObjects.Monsters)
             {
-                if (movingObjects.Hero.XPosition == monster.XPosition && 
-                    movingObjects.Hero.YPosition == monster.YPosition)
+                if (MovingObjects.Hero.XPosition == monster.XPosition && 
+                    MovingObjects.Hero.YPosition == monster.YPosition)
                 {
-                    Battle battle = new Battle(movingObjects.Hero, monster);
+                    ActualOpponent = monster;
+                    Battle battle = new Battle(MovingObjects.Hero, monster);
                     battle.Perform();
                 }
             }

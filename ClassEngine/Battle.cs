@@ -27,18 +27,13 @@ namespace WandererEngine
 
         public void Perform()
         {
-            Console.WriteLine("Perform");
-            Console.WriteLine(Attacker.IsAlive);
-            Console.WriteLine(Defendant.IsAlive);
+            Console.WriteLine($"Perform: {Attacker.IsAlive} {Defendant.IsAlive}");
             while (!IsWonByAnyParty)
             {
                 Console.WriteLine("PerformOneRound");
                 PerformOneRound();
             }
-            Console.WriteLine("EndOfPerform");
-            Console.WriteLine(Attacker.IsAlive);
-            Console.WriteLine(Defendant.IsAlive);
-
+            Console.WriteLine($"EndOfPerform: {Attacker.IsAlive} {Defendant.IsAlive}");
         }
 
         private void PerformOneRound()

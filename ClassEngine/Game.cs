@@ -15,10 +15,11 @@ namespace WandererEngine
 
         public Game()
         {
+            Dice = new Dice(new Random());
             Level = 1;
-            Area = new Area(Level, new Dice(new Random()));
-            Area.movingObjects.Hero.XPosition = 0;
-            Area.movingObjects.Hero.YPosition = 0;
+            Area = new Area(Level, Dice);
         }
+
+        public bool HeroIsAlive { get => Area.MovingObjects.Hero.IsAlive; }
     }
 }

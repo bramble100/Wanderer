@@ -10,6 +10,7 @@ namespace WandererEngine
     {
         public int XPosition;
         public int YPosition;
+        //public Position Position;
         public int MaximalHealthPoints;
         public int CurrentHealthPoints;
         public int DefendPoints;

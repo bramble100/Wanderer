@@ -47,7 +47,7 @@ namespace WandererEngine
             {typeof(KeyHolderMonster), "./skeleton.png"},
             {typeof(Monster), "./skeleton.png"}
         };
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -61,13 +61,6 @@ namespace WandererEngine
             DisplayDungeon();
             DisplayMonsters();
             DisplayHero();
-            DisplayHeroData();
-        }
-
-        private void DisplayHeroData()
-        {
-            labelHero.Content = Game.Area.movingObjects.Hero.ToString();
-            labelMonster.Content = Game.Area.movingObjects.Hero.ToString();
         }
 
         private void DisplayDungeon()
@@ -82,21 +75,30 @@ namespace WandererEngine
 
         private void DisplayMonsters()
         {
-            foreach (Monster monster in Game.Area.movingObjects.Monsters.Where(monster => monster.IsAlive))
+            foreach (Monster monster in Game.Area.MovingObjects.Monsters.Where(monster => monster.IsAlive))
             {
                 FoxDraw.AddImage(MonsterSprite[monster.GetType()],
                     monster.XPosition * Game.Area.TILE_SIZE,
                     monster.YPosition * Game.Area.TILE_SIZE);
             }
+
+            if (Game.Area.ActualOpponent != null)
+            {
+                labelMonster.Content = Game.Area.ActualOpponent.ToString();
+            }
         }
 
-        private void DisplayHero() => FoxDraw.AddImage(HeroSprite[Game.Area.movingObjects.Hero.LookingDirection],
-                Game.Area.movingObjects.Hero.XPosition * Game.Area.TILE_SIZE,
-                Game.Area.movingObjects.Hero.YPosition * Game.Area.TILE_SIZE);
+        private void DisplayHero()
+        {
+            FoxDraw.AddImage(HeroSprite[Game.Area.MovingObjects.Hero.LookingDirection],
+                Game.Area.MovingObjects.Hero.XPosition * Game.Area.TILE_SIZE,
+                Game.Area.MovingObjects.Hero.YPosition * Game.Area.TILE_SIZE);
+            labelHero.Content = Game.Area.MovingObjects.Hero.ToString();
+        }
 
         private void WindowKeyDown(object sender, KeyEventArgs e)
         {
-            if (KeyBoardReaction.ContainsKey(e.Key))
+            if (KeyBoardReaction.ContainsKey(e.Key) && Game.HeroIsAlive)
             {
                 Game.Area.TryToMoveHero(KeyBoardReaction[e.Key]);
                 RefreshGameArea();
