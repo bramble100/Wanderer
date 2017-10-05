@@ -33,6 +33,14 @@ namespace WandererEngine
                 Console.WriteLine("PerformOneRound");
                 PerformOneRound();
             }
+            if (Attacker.IsAlive)
+            {
+                Attacker.LevelUp();
+            }
+            else if (Defendant.IsAlive)
+            {
+                Defendant.LevelUp();
+            }
             Console.WriteLine($"EndOfPerform: {Attacker.IsAlive} {Defendant.IsAlive}");
         }
 
@@ -42,14 +50,9 @@ namespace WandererEngine
             Attacker.Strike(Defendant);
             if (!Defendant.IsAlive)
             {
-                Attacker.LevelUp();
                 return;
             }
             Defendant.Strike(Attacker);
-            if (Attacker.IsAlive)
-            {
-                Defendant.LevelUp();
-            }
         }
     }
 }

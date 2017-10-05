@@ -25,20 +25,21 @@ namespace WandererEngine
         Game Game;
         FoxDraw FoxDraw;
 
-        public Dictionary<Direction, string> HeroSprite = new Dictionary<Direction, string>
+        public Dictionary<Action, string> HeroSprite = new Dictionary<Action, string>
         {
-            { Direction.Up, "./hero-up.png" },
-            { Direction.Down, "./hero-down.png" },
-            { Direction.Left, "./hero-left.png" },
-            { Direction.Right, "./hero-right.png" }
+            { Action.Up, "./hero-up.png" },
+            { Action.Down, "./hero-down.png" },
+            { Action.Left, "./hero-left.png" },
+            { Action.Right, "./hero-right.png" }
         };
 
-        public Dictionary<Key, Direction> KeyBoardReaction = new Dictionary<Key, Direction>
+        public Dictionary<Key, Action> KeyBoardReaction = new Dictionary<Key, Action>
         {
-            {Key.Up, Direction.Up },
-            {Key.Down, Direction.Down },
-            {Key.Left, Direction.Left},
-            {Key.Right, Direction.Right }
+            {Key.Up, Action.Up },
+            {Key.Down, Action.Down },
+            {Key.Left, Action.Left },
+            {Key.Right, Action.Right },
+            {Key.Space, Action.Battle }
         };
 
         public Dictionary<Type, String> MonsterSprite = new Dictionary<Type, String>
@@ -101,11 +102,18 @@ namespace WandererEngine
         {
             if (KeyBoardReaction.ContainsKey(e.Key) && Game.HeroIsAlive)
             {
-                Game.Area.TryToMoveHero(KeyBoardReaction[e.Key]);
+                if (e.Key == Key.Space)
+                {
+                    Game.Area.Battle();
+                }
+                else
+                {
+                    Game.Area.TryToMoveHero(KeyBoardReaction[e.Key]);
+                }
                 if (Game.Area.IsOver)
                 {
                     Game.GetNewArea();
-                }
+                }                
                 RefreshGameArea();
             }
         }

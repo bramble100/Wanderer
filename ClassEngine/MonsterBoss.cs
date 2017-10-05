@@ -10,9 +10,14 @@ namespace WandererEngine
     {
         internal MonsterBoss(int areaLevel, Dice dice) : base(areaLevel, dice)
         {
+            InitalizeLevel(areaLevel);
+            System.Console.WriteLine($"{GetType().Name} level: {Level}");
             InitalizePoints();
         }
 
+        /// <summary>
+        /// Initializes the HP, SP and DP of the monsterboss.
+        /// </summary>
         public override void InitalizePoints()
         {
             // Monster Lvl x(if boss)

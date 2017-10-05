@@ -9,24 +9,26 @@ namespace WandererEngine
     public class MovingObjects
     {
         public Hero Hero;
-        public List<Monster> Monsters = new List<Monster>();
+        public List<Monster> Monsters;
         public int TotalNumberOfMonsters;
-        public int Level;
 
         private Dice Dice;
 
         public MovingObjects(int totalNumberOfMonsters, int areaLevel, Dice dice)
         {
             TotalNumberOfMonsters = totalNumberOfMonsters;
-            Level = areaLevel;
             Dice = dice;
+            Console.WriteLine($"Moving objects level: {areaLevel}");
 
             Hero = new Hero(areaLevel, dice);
-            Monsters.Add(new MonsterBoss(Level, dice));
-            Monsters.Add(new KeyHolderMonster(Level, dice));
+            Monsters = new List<Monster>()
+            {
+                new MonsterBoss(areaLevel, dice),
+                new KeyHolderMonster(areaLevel, dice)
+            };
             for (int i = 2; i < totalNumberOfMonsters; i++)
             {
-                Monsters.Add(new Monster(Level, dice));
+                Monsters.Add(new Monster(areaLevel, dice));
             }
         }
     }

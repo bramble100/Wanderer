@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WandererEngine;
 using NUnit.Framework;
+using WandererEngine;
 
 namespace WandererEngineTests
 {
     [TestFixture]
-    class Program
+    class BattleTests
     {
         Random Random = new Random();
 
-        static void Main(string[] args)
-        {
-        }
-
         [Test]
-        public void MovingObject()
+        public void BasicStance()
         {
             Dice Dice = new Dice(Random);
             Hero Hero = new Hero(1, Dice);
             Hero.InitalizePoints();
+            Hero.InitalizeLevel(1);
+            Monster Monster = new Monster(1, Dice);
+            Monster.InitalizePoints();
+            Monster.InitalizeLevel(1);
+
             Assert.True(Hero.IsAlive);
         }
     }

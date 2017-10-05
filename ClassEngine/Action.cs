@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace WandererEngine
 {
-    public enum Direction
+    public enum Action
     {
         Up,
         Down,
         Left,
-        Right
+        Right,
+        Battle
     }
 }

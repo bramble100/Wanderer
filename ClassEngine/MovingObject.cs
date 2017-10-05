@@ -16,6 +16,7 @@ namespace WandererEngine
         public int DefendPoints;
         public int StrikePoints;
         public int Level;
+        public bool IsAlive { get => CurrentHealthPoints > 0; }
 
         public Dice dice;
 
@@ -26,21 +27,11 @@ namespace WandererEngine
 
         public MovingObject(int level, Dice dice) : this(dice)
         {
-            InitalizeLevel(level);
-            InitalizePoints();
         }
 
         public abstract void InitalizeLevel(int level);
 
         public abstract void InitalizePoints();
-
-        public bool IsAlive
-        {
-            get
-            {
-                return CurrentHealthPoints > 0;
-            }
-        }
 
         public void LevelUp()
         {
@@ -67,9 +58,10 @@ namespace WandererEngine
 
         public override string ToString()
         {
+            string healthStatus = IsAlive ? $"{CurrentHealthPoints}/{MaximalHealthPoints}" : "dead";
             return $"{GetType().Name}" +
                 $" (Level: {Level})" +
-                $" HP: {CurrentHealthPoints}/{MaximalHealthPoints}" +
+                $" HP: {healthStatus}" +
                 $" | DP: {DefendPoints}" +
                 $" | SP: {StrikePoints}";
         }

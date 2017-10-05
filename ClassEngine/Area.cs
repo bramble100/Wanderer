@@ -34,6 +34,7 @@ namespace WandererEngine
         {
             Dice = dice;
             Level = gameLevel;
+            Console.WriteLine($"Arealevel: {Level}");
             totalNumberOfMonsters = Dice.random.Next(MIN_NUMBER_OF_MONSTERS , MAX_NUMBER_OF_MONSTERS + 1);
             MovingObjects = new MovingObjects(totalNumberOfMonsters, Level, Dice);
             MovingObjects.Hero.XPosition = 0;
@@ -91,6 +92,11 @@ namespace WandererEngine
             return -1;
         }
 
+        public void Battle()
+        {
+            throw new NotImplementedException();
+        }
+
         private bool TileIsFreeAndWalkable(int i)
         {
             if (!this[i].IsWalkable)
@@ -144,7 +150,7 @@ namespace WandererEngine
             return layout;
         }
 
-        public void TryToMoveHero(Direction direction)
+        public void TryToMoveHero(Action direction)
         {
             if (TargetTileIsWalkable(MovingObjects.Hero.XPosition, MovingObjects.Hero.YPosition, direction))
             {
@@ -152,23 +158,23 @@ namespace WandererEngine
             }
         }
 
-        private void PerformMove(int xPosition, int yPosition, Direction direction)
+        private void PerformMove(int xPosition, int yPosition, Action direction)
         {
             MovingObjects.Hero.LookingDirection = direction;
 
-            if (direction == Direction.Up)
+            if (direction == Action.Up)
             {
                 MovingObjects.Hero.YPosition--;
             }
-            else if (direction == Direction.Down)
+            else if (direction == Action.Down)
             {
                 MovingObjects.Hero.YPosition++;
             }
-            else if (direction == Direction.Right)
+            else if (direction == Action.Right)
             {
                 MovingObjects.Hero.XPosition++;
             }
-            else if (direction == Direction.Left)
+            else if (direction == Action.Left)
             {
                 MovingObjects.Hero.XPosition--;
             }
@@ -190,19 +196,19 @@ namespace WandererEngine
             }
         }
 
-        private bool TargetTileIsWalkable(int xPosition, int yPosition, Direction direction)
+        private bool TargetTileIsWalkable(int xPosition, int yPosition, Action direction)
         {
-            if ((xPosition == 0 && direction == Direction.Left) ||
-                (xPosition >= NUMBER_OF_TILES_X - 1 && direction == Direction.Right) ||
-                (yPosition == 0 && direction == Direction.Up) ||
-                (yPosition >= NUMBER_OF_TILES_Y - 1 && direction == Direction.Down))
+            if ((xPosition == 0 && direction == Action.Left) ||
+                (xPosition >= NUMBER_OF_TILES_X - 1 && direction == Action.Right) ||
+                (yPosition == 0 && direction == Action.Up) ||
+                (yPosition >= NUMBER_OF_TILES_Y - 1 && direction == Action.Down))
             {
                 return false;
             }
-            return ((direction == Direction.Up && this[GetindexFromCoordinates(xPosition, yPosition - 1)].IsWalkable) ||
-                (direction == Direction.Down && this[GetindexFromCoordinates(xPosition, yPosition + 1)].IsWalkable) ||
-                (direction == Direction.Left && this[GetindexFromCoordinates(xPosition - 1, yPosition)].IsWalkable) ||
-                (direction == Direction.Right && this[GetindexFromCoordinates(xPosition + 1, yPosition)].IsWalkable));
+            return ((direction == Action.Up && this[GetindexFromCoordinates(xPosition, yPosition - 1)].IsWalkable) ||
+                (direction == Action.Down && this[GetindexFromCoordinates(xPosition, yPosition + 1)].IsWalkable) ||
+                (direction == Action.Left && this[GetindexFromCoordinates(xPosition - 1, yPosition)].IsWalkable) ||
+                (direction == Action.Right && this[GetindexFromCoordinates(xPosition + 1, yPosition)].IsWalkable));
         }
 
         private int GetindexFromCoordinates(int xPosition, int yPosition) => yPosition * NUMBER_OF_TILES_X + xPosition;
@@ -210,6 +216,14 @@ namespace WandererEngine
         public void RandomLayoutGenerator()
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}"
+                + $" info: Level {Level}"
+                + $" MonsterBoss is {(BossIsMonsterAlive? "alive":"dead")}"
+                + $" Key holder monster is {(KeyHolderMonsterIsAlive ? "alive" : "dead")}";
         }
     }
 }

@@ -49,7 +49,7 @@
     <Compile Include="Area.cs" />
     <Compile Include="Battle.cs" />
     <Compile Include="Dice.cs" />
-    <Compile Include="Direction.cs" />
+    <Compile Include="Action.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="KeyHolderMonster.cs" />

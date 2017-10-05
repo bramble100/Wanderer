@@ -10,12 +10,18 @@ namespace WandererEngine
     {
         public Monster(int areaLevel, Dice dice) : base(dice)
         {
-            InitalizeLevel(areaLevel);
-            InitalizePoints();
         }
 
+        /// <summary>
+        /// Initializes the level of the monster.
+        /// </summary>
+        /// <param name="areaLevel"></param>
         public override void InitalizeLevel(int areaLevel) => Level = areaLevel + LevelModifierCalculator();
 
+        /// <summary>
+        /// Calculates an additional level increase based on dice roll.
+        /// </summary>
+        /// <returns></returns>
         private int LevelModifierCalculator()
         {
             // the monsters levels come from the number of the area
@@ -27,6 +33,9 @@ namespace WandererEngine
             return modifier;
         }
 
+        /// <summary>
+        /// Initializes the HP, SP and DP of the monster.
+        /// </summary>
         public override void InitalizePoints()
         {
             // Monster Lvl x
