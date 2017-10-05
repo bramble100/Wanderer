@@ -101,6 +101,10 @@ namespace WandererEngine
             if (KeyBoardReaction.ContainsKey(e.Key) && Game.HeroIsAlive)
             {
                 Game.Area.TryToMoveHero(KeyBoardReaction[e.Key]);
+                if (Game.Area.IsOver)
+                {
+                    Game.GetNewArea();
+                }
                 RefreshGameArea();
             }
         }

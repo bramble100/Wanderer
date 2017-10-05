@@ -12,9 +12,13 @@ namespace WandererEngine
         public MovingObjects MovingObjects;
         public int totalNumberOfMonsters;
         public int Level;
-        public int MIN_NUMBER_OF_MONSTERS = 23;
-        public int MAX_NUMBER_OF_MONSTERS = 26;
+        // boss and keyholder included
+        public int MIN_NUMBER_OF_MONSTERS = 2;
+        public int MAX_NUMBER_OF_MONSTERS = 2;
+
+        // placeholder for displaying enemy's data
         public Monster ActualOpponent;
+
         Dice Dice;
 
         public bool HeroIsAlive { get => MovingObjects.Hero.IsAlive; }
@@ -26,10 +30,10 @@ namespace WandererEngine
 
         public bool IsOver { get => !BossIsMonsterAlive && !KeyHolderMonsterIsAlive && HeroIsAlive;  }
 
-        public Area(int level, Dice dice)
+        public Area(int gameLevel, Dice dice)
         {
             Dice = dice;
-            Level = level;
+            Level = gameLevel;
             totalNumberOfMonsters = Dice.random.Next(MIN_NUMBER_OF_MONSTERS , MAX_NUMBER_OF_MONSTERS + 1);
             MovingObjects = new MovingObjects(totalNumberOfMonsters, Level, Dice);
             MovingObjects.Hero.XPosition = 0;

@@ -20,6 +20,12 @@ namespace WandererEngine
             Area = new Area(Level, Dice);
         }
 
-        public bool HeroIsAlive { get => Area.MovingObjects.Hero.IsAlive; }
+        public bool HeroIsAlive { get => Area.HeroIsAlive; }
+
+        public void GetNewArea()
+        {
+            Area.Clear();
+            Area = new Area(++Level, Dice);
+        }
     }
 }

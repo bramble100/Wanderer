@@ -24,8 +24,7 @@ namespace WandererEngine
         public override void InitalizePoints()
         {
             // HP: 20 + 3 * d6
-            MaximalHealthPoints = CurrentHealthPoints = 1;
-            //MaximalHealthPoints = CurrentHealthPoints = 20 + dice.Roll() + dice.Roll() + dice.Roll();
+            MaximalHealthPoints = CurrentHealthPoints = 20 + dice.Roll() + dice.Roll() + dice.Roll();
             // DP: 2 * d6
             DefendPoints = 2 + dice.Roll() + dice.Roll();
             // SP: 5 + d6
