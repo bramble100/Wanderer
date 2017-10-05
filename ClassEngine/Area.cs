@@ -17,11 +17,14 @@ namespace WandererEngine
         public Monster ActualOpponent;
         Dice Dice;
 
-        private bool IsBossMonsterAlive { get => MovingObjects.Monsters[0].IsAlive; }
-        private bool IsKeyHolderMonsterAlive { get => MovingObjects.Monsters[1].IsAlive; }
+        public bool HeroIsAlive { get => MovingObjects.Hero.IsAlive; }
+        private bool BossIsMonsterAlive { get => MovingObjects.Monsters[0].IsAlive; }
+        private bool KeyHolderMonsterIsAlive { get => MovingObjects.Monsters[1].IsAlive; }
 
         public int NumberOfFreeTiles 
             => this.Count(tile => tile.IsWalkable) - MovingObjects.Monsters.Count - 1;
+
+        public bool IsOver { get => !BossIsMonsterAlive && !KeyHolderMonsterIsAlive && HeroIsAlive;  }
 
         public Area(int level, Dice dice)
         {
