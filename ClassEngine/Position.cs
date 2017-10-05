@@ -25,7 +25,7 @@ namespace WandererEngine
 
         public int Index { get; set; }
 
-        public int XPosition { get => index % NUMBER_OF_TILES_X; }
-        public int YPosition { get => index / NUMBER_OF_TILES_X; }
+        public int X { get => index % NUMBER_OF_TILES_X; }
+        public int Y { get => index / NUMBER_OF_TILES_X; }
     }
 }

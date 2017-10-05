@@ -10,6 +10,8 @@ namespace WandererEngine
     {
         public Monster(int areaLevel, Dice dice) : base(dice)
         {
+            InitalizeLevel(areaLevel);
+            InitalizePoints();
         }
 
         /// <summary>

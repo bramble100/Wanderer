@@ -9,7 +9,7 @@ namespace WandererEngine
     public class Game
     {
         public int Level;
-        public Area Area;
+        public Map Map;
         public Dice Dice;
         public MovingObjects MovingObjects;
 
@@ -17,15 +17,15 @@ namespace WandererEngine
         {
             Dice = new Dice(new Random());
             Level = 1;
-            Area = new Area(Level, Dice);
+            Map = new Map(Level, Dice);
         }
 
-        public bool HeroIsAlive { get => Area.HeroIsAlive; }
+        public bool HeroIsAlive { get => Map.HeroIsAlive; }
 
         public void GetNewArea()
         {
-            Area.Clear();
-            Area = new Area(++Level, Dice);
+            Map.Clear();
+            Map = new Map(++Level, Dice);
         }
     }
 }

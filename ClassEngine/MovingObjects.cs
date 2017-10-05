@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WandererEngine
 {
@@ -10,15 +7,12 @@ namespace WandererEngine
     {
         public Hero Hero;
         public List<Monster> Monsters;
-        public int TotalNumberOfMonsters;
 
         private Dice Dice;
 
         public MovingObjects(int totalNumberOfMonsters, int areaLevel, Dice dice)
         {
-            TotalNumberOfMonsters = totalNumberOfMonsters;
             Dice = dice;
-            Console.WriteLine($"Moving objects level: {areaLevel}");
 
             Hero = new Hero(areaLevel, dice);
             Monsters = new List<Monster>()

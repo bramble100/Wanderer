@@ -4,17 +4,16 @@ using System.Linq;
 
 namespace WandererEngine
 {
-    public class Area : List<Tile>
+    public class Map : List<Tile>
     {
         public int NUMBER_OF_TILES_X = 10;
         public int NUMBER_OF_TILES_Y = 11;
         public int TILE_SIZE = 50;
+        public int MIN_NUMBER_OF_MONSTERS = 6;
+        public int MAX_NUMBER_OF_MONSTERS = 9;
         public MovingObjects MovingObjects;
-        public int totalNumberOfMonsters;
         public int Level;
         // boss and keyholder included
-        public int MIN_NUMBER_OF_MONSTERS = 2;
-        public int MAX_NUMBER_OF_MONSTERS = 2;
 
         // placeholder for displaying enemy's data
         public Monster ActualOpponent;
@@ -30,13 +29,14 @@ namespace WandererEngine
 
         public bool IsOver { get => !BossIsMonsterAlive && !KeyHolderMonsterIsAlive && HeroIsAlive; }
 
-        public Area(int gameLevel, Dice dice)
+        public Map(int gameLevel, Dice dice)
         {
             Dice = dice;
             Level = gameLevel;
             Console.WriteLine($"Arealevel: {Level}");
-            totalNumberOfMonsters = Dice.random.Next(MIN_NUMBER_OF_MONSTERS, MAX_NUMBER_OF_MONSTERS + 1);
-            MovingObjects = new MovingObjects(totalNumberOfMonsters, Level, Dice);
+            MovingObjects = new MovingObjects(Dice.random.Next(MIN_NUMBER_OF_MONSTERS, MAX_NUMBER_OF_MONSTERS + 1), 
+                Level, 
+                Dice);
             MovingObjects.Hero.XPosition = 0;
             MovingObjects.Hero.YPosition = 0;
 
@@ -256,12 +256,8 @@ namespace WandererEngine
             (yPosition == 0 && direction == Action.Up) ||
             (yPosition >= NUMBER_OF_TILES_Y - 1 && direction == Action.Down));
 
-        private int GetindexFromCoordinates(int xPosition, int yPosition) => yPosition * NUMBER_OF_TILES_X + xPosition;
-
-        public void RandomLayoutGenerator()
-        {
-            throw new NotImplementedException();
-        }
+        private int GetindexFromCoordinates(int xPosition, int yPosition) 
+            => yPosition * NUMBER_OF_TILES_X + xPosition;
 
         public override string ToString()
         {

@@ -67,36 +67,36 @@ namespace WandererEngine
 
         private void DisplayDungeon()
         {
-            for (int i = 0; i < Game.Area.Count; i++)
+            for (int i = 0; i < Game.Map.Count; i++)
             {
-                FoxDraw.AddImage(Game.Area[i].IsWalkable ? "./floor.png" : "./wall.png",
-                    Game.Area.TILE_SIZE * Game.Area.XPosition(i),
-                    Game.Area.TILE_SIZE * Game.Area.YPosition(i));
+                FoxDraw.AddImage(Game.Map[i].IsWalkable ? "./floor.png" : "./wall.png",
+                    Game.Map.TILE_SIZE * Game.Map.XPosition(i),
+                    Game.Map.TILE_SIZE * Game.Map.YPosition(i));
             }
-            labelAreaInfo.Content = Game.Area.ToString();
+            labelAreaInfo.Content = Game.Map.ToString();
         }
 
         private void DisplayMonsters()
         {
-            foreach (Monster monster in Game.Area.MovingObjects.Monsters.Where(monster => monster.IsAlive))
+            foreach (Monster monster in Game.Map.MovingObjects.Monsters.Where(monster => monster.IsAlive))
             {
                 FoxDraw.AddImage(MonsterSprite[monster.GetType()],
-                    monster.XPosition * Game.Area.TILE_SIZE,
-                    monster.YPosition * Game.Area.TILE_SIZE);
+                    monster.XPosition * Game.Map.TILE_SIZE,
+                    monster.YPosition * Game.Map.TILE_SIZE);
             }
 
-            if (Game.Area.ActualOpponent != null)
+            if (Game.Map.ActualOpponent != null)
             {
-                labelMonster.Content = Game.Area.ActualOpponent.ToString();
+                labelMonster.Content = Game.Map.ActualOpponent.ToString();
             }
         }
 
         private void DisplayHero()
         {
-            FoxDraw.AddImage(HeroSprite[Game.Area.MovingObjects.Hero.LookingDirection],
-                Game.Area.MovingObjects.Hero.XPosition * Game.Area.TILE_SIZE,
-                Game.Area.MovingObjects.Hero.YPosition * Game.Area.TILE_SIZE);
-            labelHero.Content = Game.Area.MovingObjects.Hero.ToString();
+            FoxDraw.AddImage(HeroSprite[Game.Map.MovingObjects.Hero.LookingDirection],
+                Game.Map.MovingObjects.Hero.XPosition * Game.Map.TILE_SIZE,
+                Game.Map.MovingObjects.Hero.YPosition * Game.Map.TILE_SIZE);
+            labelHero.Content = Game.Map.MovingObjects.Hero.ToString();
         }
 
         private void WindowKeyDown(object sender, KeyEventArgs e)
@@ -105,19 +105,19 @@ namespace WandererEngine
             {
                 if (e.Key == Key.Space)
                 {
-                    Game.Area.Battle();
+                    Game.Map.Battle();
                 }
                 else
                 {
-                    Game.Area.TryToMoveHero(KeyBoardReaction[e.Key]);
+                    Game.Map.TryToMoveHero(KeyBoardReaction[e.Key]);
                 }
-                if (Game.Area.IsOver)
+                if (Game.Map.IsOver)
                 {
                     Game.GetNewArea();
                 }
                 if (--StepsUntilMonstersMove == 0)
                 {
-                    Game.Area.MoveMonstersRandomly();
+                    Game.Map.MoveMonstersRandomly();
                     StepsUntilMonstersMove = 2;
                 }
                 RefreshGameArea();
