@@ -71,6 +71,7 @@ namespace WandererEngine
                     Game.Area.TILE_SIZE * Game.Area.XPosition(i),
                     Game.Area.TILE_SIZE * Game.Area.YPosition(i));
             }
+            labelAreaInfo.Content = Game.Area.ToString();
         }
 
         private void DisplayMonsters()

@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WandererEngine"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="514" KeyDown="WindowKeyDown">
+        Title="Wanderer" Height="690" Width="514" KeyDown="WindowKeyDown" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Canvas Name="canvas" Width="500" Height="550" Margin="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Label Name="labelHero" Content="Hero" HorizontalAlignment="Left" Margin="0,550,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" Foreground="#FF419464"/>
         <Label Name="labelMonster" Content="Monster" HorizontalAlignment="Left" Margin="0,580,0,0" VerticalAlignment="Top" FontSize="18" Foreground="#FF419464"/>
+        <Label Name="labelAreaInfo" Content="Area Info" HorizontalAlignment="Left" Margin="0,610,0,0" VerticalAlignment="Top" FontSize="18" Foreground="#FF419464"/>
     </Grid>
 </Window>
