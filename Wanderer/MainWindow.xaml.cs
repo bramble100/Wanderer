@@ -24,6 +24,7 @@ namespace WandererEngine
     {
         Game Game;
         FoxDraw FoxDraw;
+        int StepsUntilMonstersMove=2;
 
         public Dictionary<Action, string> HeroSprite = new Dictionary<Action, string>
         {
@@ -113,7 +114,12 @@ namespace WandererEngine
                 if (Game.Area.IsOver)
                 {
                     Game.GetNewArea();
-                }                
+                }
+                if (--StepsUntilMonstersMove == 0)
+                {
+                    Game.Area.MoveMonstersRandomly();
+                    StepsUntilMonstersMove = 2;
+                }
                 RefreshGameArea();
             }
         }

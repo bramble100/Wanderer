@@ -25,17 +25,17 @@ namespace WandererEngine
         private bool BossIsMonsterAlive { get => MovingObjects.Monsters[0].IsAlive; }
         private bool KeyHolderMonsterIsAlive { get => MovingObjects.Monsters[1].IsAlive; }
 
-        public int NumberOfFreeTiles 
+        public int NumberOfFreeTiles
             => this.Count(tile => tile.IsWalkable) - MovingObjects.Monsters.Count - 1;
 
-        public bool IsOver { get => !BossIsMonsterAlive && !KeyHolderMonsterIsAlive && HeroIsAlive;  }
+        public bool IsOver { get => !BossIsMonsterAlive && !KeyHolderMonsterIsAlive && HeroIsAlive; }
 
         public Area(int gameLevel, Dice dice)
         {
             Dice = dice;
             Level = gameLevel;
             Console.WriteLine($"Arealevel: {Level}");
-            totalNumberOfMonsters = Dice.random.Next(MIN_NUMBER_OF_MONSTERS , MAX_NUMBER_OF_MONSTERS + 1);
+            totalNumberOfMonsters = Dice.random.Next(MIN_NUMBER_OF_MONSTERS, MAX_NUMBER_OF_MONSTERS + 1);
             MovingObjects = new MovingObjects(totalNumberOfMonsters, Level, Dice);
             MovingObjects.Hero.XPosition = 0;
             MovingObjects.Hero.YPosition = 0;
@@ -107,8 +107,52 @@ namespace WandererEngine
             {
                 return false;
             }
-            return !MovingObjects.Monsters.Exists(monster 
+            return !MovingObjects.Monsters.Exists(monster
                 => monster.XPosition == XPosition(i) && monster.YPosition == YPosition(i));
+        }
+
+        public void MoveMonstersRandomly()
+        {
+            MovingObjects.Monsters.ForEach(monster => MoveMonsterRandomly(monster));
+        }
+
+        private void MoveMonsterRandomly(Monster monster)
+        {
+            List<Action> possibleActions = GetPossibleMonsterActions(monster);
+            PerformMonsterMove(monster, possibleActions[Dice.random.Next(possibleActions.Count)]);
+        }
+
+        private void PerformMonsterMove(Monster monster, Action action)
+        {
+            if(action == Action.Up)
+            {
+                monster.YPosition--;
+            }
+            else if(action == Action.Down)
+            {
+                monster.YPosition++;
+            }
+            else if (action == Action.Left)
+            {
+                monster.XPosition--;
+            }
+            else if (action == Action.Right)
+            {
+                monster.XPosition++;
+            }
+        }
+
+        private List<Action> GetPossibleMonsterActions(Monster monster)
+        {
+            List<Action> actions = new List<Action>();
+            foreach (Action action in Enum.GetValues(typeof(Action)))
+            {
+                if (TargetTileIsWalkable(monster.XPosition, monster.YPosition, action) && action != Action.Battle)
+                {
+                    actions.Add(action);
+                }
+            }
+            return actions;
         }
 
         /// <summary>
@@ -186,7 +230,7 @@ namespace WandererEngine
         {
             foreach (Monster monster in MovingObjects.Monsters)
             {
-                if (MovingObjects.Hero.XPosition == monster.XPosition && 
+                if (MovingObjects.Hero.XPosition == monster.XPosition &&
                     MovingObjects.Hero.YPosition == monster.YPosition)
                 {
                     ActualOpponent = monster;
@@ -196,20 +240,21 @@ namespace WandererEngine
             }
         }
 
-        private bool TargetTileIsWalkable(int xPosition, int yPosition, Action direction)
-        {
-            if ((xPosition == 0 && direction == Action.Left) ||
-                (xPosition >= NUMBER_OF_TILES_X - 1 && direction == Action.Right) ||
-                (yPosition == 0 && direction == Action.Up) ||
-                (yPosition >= NUMBER_OF_TILES_Y - 1 && direction == Action.Down))
-            {
-                return false;
-            }
-            return ((direction == Action.Up && this[GetindexFromCoordinates(xPosition, yPosition - 1)].IsWalkable) ||
-                (direction == Action.Down && this[GetindexFromCoordinates(xPosition, yPosition + 1)].IsWalkable) ||
-                (direction == Action.Left && this[GetindexFromCoordinates(xPosition - 1, yPosition)].IsWalkable) ||
-                (direction == Action.Right && this[GetindexFromCoordinates(xPosition + 1, yPosition)].IsWalkable));
-        }
+        private bool TargetTileIsWalkable(int xPosition, int yPosition, Action direction) 
+            => TargetFileIsInTheArea(xPosition, yPosition, direction) &&
+            TargetFileIsNotWall(xPosition, yPosition, direction);
+
+        private bool TargetFileIsNotWall(int xPosition, int yPosition, Action direction) 
+            => ((direction == Action.Up && this[GetindexFromCoordinates(xPosition, yPosition - 1)].IsWalkable) ||
+            (direction == Action.Down && this[GetindexFromCoordinates(xPosition, yPosition + 1)].IsWalkable) ||
+            (direction == Action.Left && this[GetindexFromCoordinates(xPosition - 1, yPosition)].IsWalkable) ||
+            (direction == Action.Right && this[GetindexFromCoordinates(xPosition + 1, yPosition)].IsWalkable));
+
+        private bool TargetFileIsInTheArea(int xPosition, int yPosition, Action direction) 
+            => !((xPosition == 0 && direction == Action.Left) ||
+            (xPosition >= NUMBER_OF_TILES_X - 1 && direction == Action.Right) ||
+            (yPosition == 0 && direction == Action.Up) ||
+            (yPosition >= NUMBER_OF_TILES_Y - 1 && direction == Action.Down));
 
         private int GetindexFromCoordinates(int xPosition, int yPosition) => yPosition * NUMBER_OF_TILES_X + xPosition;
 
@@ -222,7 +267,7 @@ namespace WandererEngine
         {
             return $"{GetType().Name}"
                 + $" info: Level {Level}"
-                + $" MonsterBoss is {(BossIsMonsterAlive? "alive":"dead")}"
+                + $" MonsterBoss is {(BossIsMonsterAlive ? "alive" : "dead")}"
                 + $" Key holder monster is {(KeyHolderMonsterIsAlive ? "alive" : "dead")}";
         }
     }
